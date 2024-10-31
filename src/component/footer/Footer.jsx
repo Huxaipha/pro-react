@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import food from '../../assets/images/food.svg';
 import xxx from '../../assets/images/xxx.svg';
 import facebook from '../../assets/images/facebook.svg';
@@ -9,17 +9,30 @@ import arrowup1 from '../../assets/images/arrowup1.svg';
 
 const Footer = () => {
   const [activeSection, setActiveSection] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section);
   };
 
+  // Check if the window is resized to handle mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-auto lg:w-[1440px] lg:h-[450px] bg-[#3F2601] text-white p-6">
-      <div className="w-full lg:w-[1281px] lg:h-[276px] grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="w-full lg:w-[1281px] lg:h-[276px] flex flex-col lg:flex-row justify-between items-start gap-6">
         
         {/* Brand and Description */}
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start lg:w-1/4">
           <h2 className="text-2xl font-bold flex items-center">
             <span className="bg-[#FF8C00] p-2 rounded-full mr-2">
               <img src={food} alt="Marvie Foods Icon" className="w-6 h-6" />
@@ -38,12 +51,12 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div className="flex flex-col items-start ml-4 md:ml-16">
-          <div className="flex items-center justify-between w-full md:justify-start">
+        <div className="flex flex-col items-start lg:w-1/4">
+          <div className="flex items-center justify-between w-full">
             <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
             {/* Arrow icon for mobile view */}
             <span 
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF8C00] md:hidden"
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF8C00] lg:hidden"
               onClick={() => toggleSection('quickLinks')}
             >
               <img
@@ -53,7 +66,7 @@ const Footer = () => {
               />
             </span>
           </div>
-          {(activeSection === 'quickLinks' || window.innerWidth >= 768) && (
+          {(activeSection === 'quickLinks' || !isMobile) && (
             <ul className="space-y-2 text-start text-sm">
               <li>Home</li>
               <li>Menu</li>
@@ -65,12 +78,12 @@ const Footer = () => {
         </div>
 
         {/* Opening Hours */}
-        <div className="flex flex-col items-start">
-          <div className="flex items-center justify-between w-full md:justify-start">
+        <div className="flex flex-col items-start lg:w-1/4">
+          <div className="flex items-center justify-between w-full">
             <h3 className="text-lg font-semibold mb-2">Opening Hours</h3>
             {/* Arrow icon for mobile view */}
             <span 
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF8C00] md:hidden"
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF8C00] lg:hidden"
               onClick={() => toggleSection('openingHours')}
             >
               <img
@@ -80,7 +93,7 @@ const Footer = () => {
               />
             </span>
           </div>
-          {(activeSection === 'openingHours' || window.innerWidth >= 768) && (
+          {(activeSection === 'openingHours' || !isMobile) && (
             <ul className="space-y-2 text-start text-sm">
               <li>Mon - Fri: 09:00 am - 09:00 pm</li>
               <li>Saturday: 09:00 am - 08:00 pm</li>
@@ -90,12 +103,12 @@ const Footer = () => {
         </div>
 
         {/* Contact Us */}
-        <div className="flex flex-col items-start">
-          <div className="flex items-center justify-between w-full md:justify-start">
+        <div className="flex flex-col items-start lg:w-1/4">
+          <div className="flex items-center justify-between w-full">
             <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
             {/* Arrow icon for mobile view */}
             <span 
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF8C00] md:hidden"
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-[#FF8C00] lg:hidden"
               onClick={() => toggleSection('contactUs')}
             >
               <img
@@ -105,7 +118,7 @@ const Footer = () => {
               />
             </span>
           </div>
-          {(activeSection === 'contactUs' || window.innerWidth >= 768) && (
+          {(activeSection === 'contactUs' || !isMobile) && (
             <address className="not-italic text-start text-sm space-y-2">
               <p>Hiltop Close, G.R.A, Port Harcourt.</p>
               <p>+234 901 234 5678</p>
@@ -119,7 +132,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Section */}
+      {/* Footer Copyright Text */}
       <div className="w-full border-t border-white mt-6 text-center text-sm pt-4">
         Copyright ©2024
       </div>
@@ -128,6 +141,8 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
 
 
 
